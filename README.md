@@ -25,7 +25,8 @@ __contact__: Abereham.wodajie@gmail.com
 
 * using curl to extract information
     * getAllTransactions
-    curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{
+    
+ curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{
   "args": {
     "api-token": "AppTokenForInterview",
     "json-strict-mode": true,
@@ -36,6 +37,7 @@ __contact__: Abereham.wodajie@gmail.com
 }' 'http://localhost:8080/capitalOne/transactions'
 
   * money the user spends and makes in each of the months
+  
 curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{
   "args": {
     "api-token": "AppTokenForInterview",
@@ -47,6 +49,7 @@ curl -X POST --header 'Content-Type: application/json' --header 'Accept: applica
 }' 'http://localhost:8080/capitalOne/transactions/monthlyexpense'
 
  * getProjectedTransactionsForMonth
+ 
 curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{
   "args": {
     "api-token": "AppTokenForInterview",
