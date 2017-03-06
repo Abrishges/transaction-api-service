@@ -7,3 +7,4 @@ spring:
 #Transactions
 transactions:
   getallurl: https://2016.api.levelmoney.com/api/v2/core/get-all-transactions
+  getmonthlyurl: https://2016.api.levelmoney.com/api/v2/core/projected-transactions-for-month

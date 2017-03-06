@@ -6,6 +6,7 @@ package com.capitalOne.transaction.dao;
 import org.springframework.http.HttpEntity;
 
 import com.capitalOne.transaction.dto.Common;
+import com.capitalOne.transaction.dto.MonthRequestBody;
 import com.capitalOne.transaction.dto.TransactionsResponseBody;
 
 /**
@@ -15,4 +16,5 @@ import com.capitalOne.transaction.dto.TransactionsResponseBody;
  */
 public interface TransactionRepository {
 	public TransactionsResponseBody getAllTransactions(HttpEntity<Common> request );
+	public TransactionsResponseBody getProjectedTransactionsForMonthResponse(HttpEntity<MonthRequestBody> request);
 }

@@ -4,6 +4,7 @@
 package com.capitalOne.transaction.service;
 
 import com.capitalOne.transaction.dto.Common;
+import com.capitalOne.transaction.dto.MonthRequestBody;
 import com.capitalOne.transaction.dto.TransactionsResponseBody;
 
 /**
@@ -13,4 +14,5 @@ import com.capitalOne.transaction.dto.TransactionsResponseBody;
  */
 public interface TransactionService {
 	public TransactionsResponseBody getAllTransactions(Common common);
+	public TransactionsResponseBody getProjectedTransactionsForMonthResponse(MonthRequestBody monthRequestBody);
 }

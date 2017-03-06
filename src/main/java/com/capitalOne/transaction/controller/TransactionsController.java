@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capitalOne.transaction.dto.Common;
+import com.capitalOne.transaction.dto.MonthRequestBody;
 import com.capitalOne.transaction.dto.TransactionsResponseBody;
 import com.capitalOne.transaction.service.TransactionServiceImpl;
 
@@ -46,6 +47,16 @@ public class TransactionsController {
 
 		LOG.debug("Calling service: @Transactions Controller ");
 		return transactionService.getAllTransactions(request);
+	}
+
+	@ApiOperation(value = "Get monthly customer Transactionss", notes = "Get Monthly Transactions ")
+	@ApiResponses(value = { @ApiResponse(code = 400, message = "Fields are with validation errors") })
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/transactions/monthly", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public TransactionsResponseBody getProjectedTransactionsForMonth(@RequestBody MonthRequestBody request) {
+
+		LOG.debug("Calling service: @Transactions Controller, mothly");
+		return transactionService.getProjectedTransactionsForMonthResponse(request);
 	}
 
 }

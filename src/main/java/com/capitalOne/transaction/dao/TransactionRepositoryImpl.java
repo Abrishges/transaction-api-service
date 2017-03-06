@@ -3,6 +3,8 @@
  */
 package com.capitalOne.transaction.dao;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,10 +16,12 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import com.capitalOne.transaction.dto.Common;
+import com.capitalOne.transaction.dto.MonthRequestBody;
+import com.capitalOne.transaction.dto.Transactions;
 import com.capitalOne.transaction.dto.TransactionsResponseBody;
 
 /**
- * @author aberehamwodajie
+ * @author Abereham Wodajie
  *
  *         Mar 5, 2017
  */
@@ -30,6 +34,10 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 	@Value("${transactions.getallurl}")
 	private String getallurl;
 
+	@Value("${transactions.getmonthlyurl}")
+	private String monthlyurl;
+
+	// This method retrieves all transactions
 	public TransactionsResponseBody getAllTransactions(HttpEntity<Common> request) {
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -38,19 +46,38 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
 		try {
 			LOG.debug("getallurl: " + getallurl);
-			String url = "xx";
-			response = restTemplate.postForEntity(url, request, TransactionsResponseBody.class);
+			response = restTemplate.postForEntity(getallurl, request, TransactionsResponseBody.class);
 			LOG.debug("Successfuly get all data: ");
 		} catch (HttpStatusCodeException exception) {
 			int statusCode = exception.getStatusCode().value();
 			LOG.debug("Status code:" + statusCode);
-			// throw new NoHandlerFoundException("No Handler found", getallurl,
-			// null);
+			// intercepted by customer Exception
 		}
 
 		LOG.debug("response: " + response.toString());
-
 		TransactionsResponseBody responseBody = response.getBody();
+
+		return responseBody;
+	}
+
+	// This method retrieves monthly transactions
+	public TransactionsResponseBody getProjectedTransactionsForMonthResponse(HttpEntity<MonthRequestBody> request) {
+
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+		ResponseEntity<TransactionsResponseBody> response = null;
+		try {
+			response = restTemplate.postForEntity(monthlyurl, request, TransactionsResponseBody.class);
+		} catch (HttpStatusCodeException exception) {
+			// intercepted by customer Exception
+			int statusCode = exception.getStatusCode().value();
+			LOG.debug("Status code:" + statusCode);
+		}
+
+		LOG.debug("response: " + response.toString());
+		TransactionsResponseBody responseBody = response.getBody();
+		List<Transactions> transactions = responseBody.getTransactions();
+		LOG.debug("End of calling the remote server");
 
 		return responseBody;
 	}
