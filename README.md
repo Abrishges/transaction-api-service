@@ -13,11 +13,11 @@ __contact__: Abereham.wodajie@gmail.com
 
 #To run the project, Navigate to project directory  using terminal or cmd, and use the following cmd
 
--mvn spring-boot:run
+  `mvn spring-boot:run`
 
 # To test calls , use swagger page in your favourite browser 
 * URL
-    http://localhost:8080/swagger-ui.html#/
+    * http://localhost:8080/swagger-ui.html#/
     
 * get all transactions url
-        http://localhost:8080/swagger-ui.html#/Transactions
+     * http://localhost:8080/swagger-ui.html#/Transactions
