@@ -21,3 +21,7 @@ __contact__: Abereham.wodajie@gmail.com
     
 * get all transactions url
      * http://localhost:8080/swagger-ui.html#/Transactions
+     
+
+* using curl to extract information
+    * 

@@ -27,7 +27,7 @@ public class Transactions {
 	
 	@JsonProperty("transaction-time")
    private String transactionTime;
-   private Integer amount; //
+   private long amount; //
    
 	@JsonProperty("previous-transaction-id")
    private String previousTransactionId;
@@ -92,11 +92,11 @@ public class Transactions {
 		this.transactionTime = transactionTime;
 	}
 
-	public Integer getAmount() {
+	public long getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Integer amount) {
+	public void setAmount(long amount) {
 		this.amount = amount;
 	}
 
