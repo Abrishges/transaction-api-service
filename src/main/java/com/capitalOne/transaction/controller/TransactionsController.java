@@ -52,7 +52,6 @@ public class TransactionsController {
 		return transactionService.getAllTransactions(request);
 	}
    
-	
 	@ApiOperation(value = "Get monthly customer expense", notes = "Get Monthly expense ")
 	@ApiResponses(value = { @ApiResponse(code = 400, message = "Fields are with validation errors") })
 	@CrossOrigin(origins = "*")
