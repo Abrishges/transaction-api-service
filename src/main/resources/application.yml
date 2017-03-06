@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: default
+
+
+
+#Transactions
+transactions:
+  getallurl: https://2016.api.levelmoney.com/api/v2/core/get-all-transactions
