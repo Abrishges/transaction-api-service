@@ -188,7 +188,7 @@ public class TransactionServiceImpl implements TransactionService {
 		return map;
 	}
 
-	// Assumption amount us unique
+	// Assumption amount is unique
 	public Map<String, List<Transactions>> ignoreCcPayments(Common common) {
 
 		if (common.getArgs().getToken() == null || common.getArgs().getToken().isEmpty()
@@ -211,14 +211,15 @@ public class TransactionServiceImpl implements TransactionService {
 		while (iter.hasNext()) {
 			Transactions trans = iter.next();
 			Long amount = trans.getAmount();
-			if (aggregatedTransaction.containsKey(-amount)) {
-				Transactions transaction = aggregatedTransaction.get(-amount);
-				long clearDateinSeconds = (long) ((float) (transaction.getClearDate() - trans.getClearDate()) / 1000);
-				if (clearDateinSeconds == 86400) {
+			Long oppsite = (-1 * amount);
+			if (aggregatedTransaction.containsKey(oppsite)) {
+				Transactions transaction = aggregatedTransaction.get(oppsite);
+				//long clearDateinSeconds = (long) ((float) (transaction.getClearDate() - trans.getClearDate()) / 1000);
+				//if (clearDateinSeconds == 86400) {
 					aggregatedTransaction.remove(transaction);
 					creditCardPaymentmap.add(transaction);
 					creditCardPaymentmap.add(trans);
-				}
+				//}
 				aggregatedTransaction.put(amount, trans);
 
 			} else {
