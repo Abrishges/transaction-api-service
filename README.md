@@ -19,7 +19,7 @@ __contact__: Abereham.wodajie@gmail.com
 * URL
     * http://localhost:8080/swagger-ui.html#/
     
-* transaction urls, the last two are not complite
+* transaction urls, the last two are not fully implemented. 
      * http://localhost:8080/swagger-ui.html#/Transactions
      * http://localhost:8080/swagger-ui.html#!/Transactions/getAllTransactionsUsingPOST
      * http://localhost:8080/swagger-ui.html#!/Transactions/getMonthlyBudgetUsingPOST
