@@ -19,9 +19,14 @@ __contact__: Abereham.wodajie@gmail.com
 * URL
     * http://localhost:8080/swagger-ui.html#/
     
-* get all transactions url
+* transaction urls, the last two are not complite
      * http://localhost:8080/swagger-ui.html#/Transactions
-     
+     * http://localhost:8080/swagger-ui.html#!/Transactions/getAllTransactionsUsingPOST
+     * http://localhost:8080/swagger-ui.html#!/Transactions/getMonthlyBudgetUsingPOST
+     * http://localhost:8080/swagger-ui.html#!/Transactions/ignoreDonutsUsingPOST
+     * http://localhost:8080/swagger-ui.html#!/Transactions/ignoreCCpaymentsUsingPOST
+     * http://localhost:8080/swagger-ui.html#!/Transactions/getProjectedTransactionsForMonthUsingPOST
+          
 
 * using curl to extract information
     * getAllTransactions

@@ -3,6 +3,7 @@
  */
 package com.capitalOne.transaction.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.capitalOne.transaction.dto.Common;
 import com.capitalOne.transaction.dto.MonthRequestBody;
 import com.capitalOne.transaction.dto.MonthlyBudget;
+import com.capitalOne.transaction.dto.Transactions;
 import com.capitalOne.transaction.dto.TransactionsResponseBody;
 import com.capitalOne.transaction.service.TransactionServiceImpl;
 
@@ -70,6 +72,14 @@ public class TransactionsController {
 		return transactionService.ignoreDonuts(common);
 	}
 
+	@ApiOperation(value = "Get transactions ignoreing ignore-cc-payments, and get cc-payments", notes = "Get transactions ignoreing ignore-cc-payments, and cc-payments")
+	@ApiResponses(value = { @ApiResponse(code = 400, message = "Fields are with validation errors") })
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/transactions/ignoreCCpayments", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, List<Transactions>> ignoreCCpayments(@RequestBody Common common) {
+		LOG.debug("Calling the service: ");
+		return transactionService.ignoreCcPayments(common);
+	}
 	
 	@ApiOperation(value = "Get monthly customer Transactionss", notes = "Get Monthly Transactions ")
 	@ApiResponses(value = { @ApiResponse(code = 400, message = "Fields are with validation errors") })

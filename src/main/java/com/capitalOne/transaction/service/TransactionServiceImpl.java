@@ -3,6 +3,10 @@
  */
 package com.capitalOne.transaction.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -37,8 +41,9 @@ public class TransactionServiceImpl implements TransactionService {
 
 	// This method retrieves all transactions
 	public TransactionsResponseBody getAllTransactions(Common common) {
-		
-		if(common.getArgs().getToken() == null || common.getArgs().getToken().isEmpty() || common.getArgs().getUid() == 0){
+
+		if (common.getArgs().getToken() == null || common.getArgs().getToken().isEmpty()
+				|| common.getArgs().getUid() == 0) {
 			throw new IllegalArgumentException("The 'Uid or token' parameter must not be null or empty");
 		}
 
@@ -63,8 +68,9 @@ public class TransactionServiceImpl implements TransactionService {
 
 	// This method retrieves monthly expense and average expense
 	public Map<String, MonthlyBudget> getMonthlyBudget(Common common) {
-		
-		if(common.getArgs().getToken() == null || common.getArgs().getToken().isEmpty() || common.getArgs().getUid() == 0){
+
+		if (common.getArgs().getToken() == null || common.getArgs().getToken().isEmpty()
+				|| common.getArgs().getUid() == 0) {
 			throw new IllegalArgumentException("The 'Uid or token' parameter must not be null or empty");
 		}
 
@@ -74,7 +80,8 @@ public class TransactionServiceImpl implements TransactionService {
 		LOG.debug("Calling end point repository: ");
 
 		List<Transactions> listOfTransactions = transactionRepository.getAllTransactions(request).getTransactions();
-		// HashMap makes it more efficient but TreeMap is used to get sorted result 		
+		// HashMap makes it more efficient but TreeMap is used to get sorted
+		// result
 		Map<String, MonthlyBudget> map = new TreeMap<String, MonthlyBudget>();
 		long totalSpent = 0;
 		long totalIncome = 0;
@@ -118,10 +125,11 @@ public class TransactionServiceImpl implements TransactionService {
 		return map;
 	}
 
-	//Returns monthly expense ignoring daunts 
+	// Returns monthly expense ignoring daunts
 	public Map<String, MonthlyBudget> ignoreDonuts(Common common) {
-		
-		if(common.getArgs().getToken() == null || common.getArgs().getToken().isEmpty() || common.getArgs().getUid() == 0){
+
+		if (common.getArgs().getToken() == null || common.getArgs().getToken().isEmpty()
+				|| common.getArgs().getUid() == 0) {
 			throw new IllegalArgumentException("The 'Uid or token' parameter must not be null or empty");
 		}
 
@@ -131,8 +139,9 @@ public class TransactionServiceImpl implements TransactionService {
 		LOG.debug("Calling end point repository: ");
 
 		List<Transactions> listOfTransactions = transactionRepository.getAllTransactions(request).getTransactions();
-        // HashMap makes it more efficient but TreeMap is used to get sorted result 																		
-		Map<String, MonthlyBudget> map = new TreeMap<String, MonthlyBudget>(); 
+		// HashMap makes it more efficient but TreeMap is used to get sorted
+		// result
+		Map<String, MonthlyBudget> map = new TreeMap<String, MonthlyBudget>();
 		long totalSpent = 0;
 		long totalIncome = 0;
 
@@ -175,6 +184,53 @@ public class TransactionServiceImpl implements TransactionService {
 		long income = (long) ((float) totalIncome / size);
 		MonthlyBudget averageBudget = new MonthlyBudget(spent, income);
 		map.put("average", averageBudget);
+
+		return map;
+	}
+
+	// Assumption amount us unique
+	public Map<String, List<Transactions>> ignoreCcPayments(Common common) {
+
+		if (common.getArgs().getToken() == null || common.getArgs().getToken().isEmpty()
+				|| common.getArgs().getUid() == 0) {
+			throw new IllegalArgumentException("The 'Uid or token' parameter must not be null or empty");
+		}
+		LOG.debug("ignoreCcPayments service");
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+		headers.add("Content-Type", "application/json");
+		HttpEntity<Common> request = new HttpEntity<Common>(common, headers);
+		LOG.debug("Calling end point repository: ");
+		List<Transactions> listOfTransactions = transactionRepository.getAllTransactions(request).getTransactions();
+
+		Map<Long, Transactions> aggregatedTransaction = new HashMap<Long, Transactions>();
+		Map<String, List<Transactions>> map = new HashMap<String, List<Transactions>>();
+		List<Transactions> creditCardPaymentmap = new LinkedList<Transactions>();
+
+		Iterator<Transactions> iter = listOfTransactions.listIterator();
+
+		while (iter.hasNext()) {
+			Transactions trans = iter.next();
+			Long amount = trans.getAmount();
+			if (aggregatedTransaction.containsKey(-amount)) {
+				Transactions transaction = aggregatedTransaction.get(-amount);
+				long clearDateinSeconds = (long) ((float) (transaction.getClearDate() - trans.getClearDate()) / 1000);
+				if (clearDateinSeconds == 86400) {
+					aggregatedTransaction.remove(transaction);
+					creditCardPaymentmap.add(transaction);
+					creditCardPaymentmap.add(trans);
+				}
+				aggregatedTransaction.put(amount, trans);
+
+			} else {
+				aggregatedTransaction.put(amount, trans);
+			}
+
+		}
+
+		List<Transactions> transactions = new ArrayList<Transactions>(aggregatedTransaction.values());
+
+		map.put("aggregateTransactions", transactions);
+		map.put("creditCardPayment", creditCardPaymentmap);
 
 		return map;
 	}

@@ -3,21 +3,18 @@
  */
 package com.capitalOne.transaction.dao;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import com.capitalOne.transaction.dto.Common;
 import com.capitalOne.transaction.dto.MonthRequestBody;
-import com.capitalOne.transaction.dto.Transactions;
 import com.capitalOne.transaction.dto.TransactionsResponseBody;
 
 /**
@@ -25,8 +22,8 @@ import com.capitalOne.transaction.dto.TransactionsResponseBody;
  *
  *         Mar 5, 2017
  */
-// @Respository
-@Component
+//@Component
+@Repository
 public class TransactionRepositoryImpl implements TransactionRepository {
 
 	private static final Logger LOG = LoggerFactory.getLogger(TransactionRepositoryImpl.class);
@@ -53,8 +50,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 			LOG.debug("Status code:" + statusCode);
 			// intercepted by customer Exception
 		}
-
-		LOG.debug("response: " + response.toString());
+        LOG.debug("End of calling ");
 		TransactionsResponseBody responseBody = response.getBody();
 
 		return responseBody;
@@ -74,9 +70,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 			LOG.debug("Status code:" + statusCode);
 		}
 
-		LOG.debug("response: " + response.toString());
 		TransactionsResponseBody responseBody = response.getBody();
-		List<Transactions> transactions = responseBody.getTransactions();
 		LOG.debug("End of calling the remote server");
 
 		return responseBody;

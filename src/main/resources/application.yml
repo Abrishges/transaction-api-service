@@ -1,6 +1,10 @@
 spring:
   profiles:
     active: default
+logging:
+  level:
+    org.springframework.web: DEBUG
+    com.capitalOne : DEBUG
 
 spring.mvc.throw-exception-if-no-handler-found: true
 #spring.resources.add-mappings: false
@@ -11,4 +15,3 @@ transactions:
   getallurl: https://2016.api.levelmoney.com/api/v2/core/get-all-transactions
   getmonthlyurl: https://2016.api.levelmoney.com/api/v2/core/projected-transactions-for-month
  
-
