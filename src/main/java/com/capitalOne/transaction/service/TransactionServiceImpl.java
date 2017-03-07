@@ -63,6 +63,10 @@ public class TransactionServiceImpl implements TransactionService {
 
 	// This method retrieves monthly expense and average expense
 	public Map<String, MonthlyBudget> getMonthlyBudget(Common common) {
+		
+		if(common.getArgs().getToken() == null || common.getArgs().getToken().isEmpty() || common.getArgs().getUid() == 0){
+			throw new IllegalArgumentException("The 'Uid or token' parameter must not be null or empty");
+		}
 
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
 		headers.add("Content-Type", "application/json");
@@ -116,6 +120,10 @@ public class TransactionServiceImpl implements TransactionService {
 
 	//Returns monthly expense ignoring daunts 
 	public Map<String, MonthlyBudget> ignoreDonuts(Common common) {
+		
+		if(common.getArgs().getToken() == null || common.getArgs().getToken().isEmpty() || common.getArgs().getUid() == 0){
+			throw new IllegalArgumentException("The 'Uid or token' parameter must not be null or empty");
+		}
 
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
 		headers.add("Content-Type", "application/json");
