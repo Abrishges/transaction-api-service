@@ -10,8 +10,10 @@ __contact__: Abereham.wodajie@gmail.com
 * IDE
 	* Either IntelliJ or Eclipse
 
-
-#To run the project, Navigate to project directory  using terminal or cmd, and use the following cmd
+*clone or download
+  * git clone https://github.com/Abrishges/transaction-api-service.git
+  
+#To run the project, Navigate to project directory, transaction-api-service  using terminal or cmd, and use the following cmd
 
   `mvn spring-boot:run`
 
