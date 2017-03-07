@@ -27,7 +27,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 /**
- * @author aberehamwodajie
+ * @author Abereham Wodajie
  *
  *         Mar 4, 2017
  */
@@ -60,6 +60,15 @@ public class TransactionsController {
 		
 		return transactionService.getMonthlyBudget(common);
 	}
+	
+	@ApiOperation(value = "Get monthly user expense ignoreing Donuts", notes = "Get Monthly expense ignoreing Donuts")
+	@ApiResponses(value = { @ApiResponse(code = 400, message = "Fields are with validation errors") })
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/transactions/ignoreDonuts", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, MonthlyBudget> ignoreDonuts(@RequestBody Common common) {
+		
+		return transactionService.ignoreDonuts(common);
+	}
 
 	
 	@ApiOperation(value = "Get monthly customer Transactionss", notes = "Get Monthly Transactions ")
@@ -71,4 +80,5 @@ public class TransactionsController {
 		LOG.debug("Calling service: @Transactions Controller, mothly");
 		return transactionService.getProjectedTransactionsForMonthResponse(request);
 	}
+
 }

@@ -28,6 +28,7 @@ import com.capitalOne.transaction.dto.ErrorResponse;
 @ControllerAdvice
 public class ExceptionHandlerController {
 
+
 	private static final Logger log = LoggerFactory.getLogger(ExceptionHandlerController.class);
 
 	@ExceptionHandler(NoHandlerFoundException.class)
@@ -35,16 +36,16 @@ public class ExceptionHandlerController {
 	@ResponseBody
 	public ErrorResponse requestHandlingNoHandlerFound(HttpServletRequest req, HttpServletResponse response,
 			NoHandlerFoundException e) {
-
+		
 		log.debug("request url 1: " + req.getRequestURI());
 		log.debug("request method " + req.getMethod());
 		log.debug("status code " + response.getStatus());
-
-		return new ErrorResponse(HttpStatus.NOT_FOUND.value(),
-				"The URL you have reached is not in service at this time", req.getRequestURL(), req.getMethod(),
-				"none");
+		
+		
+		return new ErrorResponse(HttpStatus.NOT_FOUND.value(), "The URL you have reached is not in service at this time", req.getRequestURL(), req.getMethod(), "none");
 	}
-
+	
+	
 	// handles number format exceptions
 	@ExceptionHandler(value = NumberFormatException.class)
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
@@ -54,22 +55,20 @@ public class ExceptionHandlerController {
 		log.debug("request url 3: " + req.getRequestURI());
 		log.debug("request method " + req.getMethod());
 		log.debug("status code " + response.getStatus());
-
-		return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Required Number parameter is not proper",
-				req.getRequestURL(), req.getMethod(), "none");
+		
+		return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Required Number parameter is not proper" , req.getRequestURL(), req.getMethod(), "none");
 	}
 
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(value = IllegalArgumentException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(Exception.class)
 	@ResponseBody
-	public ErrorResponse BusinessExceptionHandler(HttpServletRequest req, HttpServletResponse response,
-			IllegalArgumentException e) {
+	ErrorResponse handleBadRequest(HttpServletRequest req, HttpServletResponse response, Exception e) {
 
-		log.debug("request url 2: " + req.getRequestURI());
+		log.debug("request url " + req.getRequestURI());
 		log.debug("request method " + req.getMethod());
-		log.debug("status code " + response.getStatus());
-
-		return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), req.getRequestURL(), req.getMethod(),
-				"none");
+		log.debug("status code 4: " + response.getStatus());
+		
+		return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage(), req.getRequestURL(), req.getMethod(), "none");
 	}
+ 
 }
